@@ -29,7 +29,7 @@ class EventsComponent extends Component {
           dataReady: true
         }, function(){
 
-          console.log(JSON.stringify(res.data.length) + " events found!");
+          console.log(JSON.stringify(res.data.length) + " FB events found!");
         });
 
       }.bind(this));
@@ -50,7 +50,7 @@ render() {
   let body = null;
     // console.log("LOGGING PAGES_ARR: "+this.state.events.length);
 if(this.state.dataReady){
-  console.log("render event length: " + JSON.stringify(this.state.events.length));
+  // console.log("render event length: " + JSON.stringify(this.state.events.length));
     var pages_arr = []
     var i;
     var time;

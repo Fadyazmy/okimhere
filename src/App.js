@@ -7,9 +7,9 @@ import graph from 'fb-react-sdk';
 import configs from './config/config.json';
 
 /* own modules */
-import EventsComponent from './EventsComponent.jsx'
 import SearchBar from './SearchBar.jsx'
-import Eventbrite from './Eventbrite.jsx'
+import FacebookEvents from './EventsComponent.jsx'
+import EventbriteEvents from './Eventbrite.jsx'
 
 class App extends Component {
 
@@ -85,12 +85,11 @@ class App extends Component {
         <SearchBar
           onSearchTermChange={videoQuery} />
 
-        <EventsComponent
+        <FacebookEvents
           userInfo={this.state.userData}
           query={this.state.query} />
 
-
-        <Eventbrite query={this.state.query} />
+        <EventbriteEvents query={this.state.query} />
       </div>
 
     }
