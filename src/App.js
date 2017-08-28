@@ -4,6 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 import FacebookLogin from 'react-facebook-login';
 import graph from 'fb-react-sdk';
+import configs from './config/config.json';
 
 /* own modules */
 import EventsComponent from './EventsComponent.jsx'
@@ -104,7 +105,7 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <FacebookLogin
-      appId="113279066043627"
+      appId= {configs.appId}
       autoLoad={true}
       version = 'v2.10'
       fields="name,email,picture"
