@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import graph from 'fb-react-sdk';
 import axios from 'axios';
-import configs from './config/config.json';
+import configs from '../../config/config.json';
 
 class Eventbrite extends Component {
   constructor(props){
@@ -55,7 +54,6 @@ class Eventbrite extends Component {
         console.log("ITER x: " + JSON.stringify(this.state.events.length));
         var pages_arr = []
         var i;
-        var time;
         for (i=0; i < this.state.events.length; i+=1) {
           pages_arr.push( (<li key={i}> {this.state.events[i].name.text} </li>));
         }
