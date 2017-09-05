@@ -18,8 +18,7 @@ export default class SimpleMap extends React.Component {
     static defaultProps = {
         center: {lat: 59.95, lng: 30.33},
         zoom: 11,
-        placeholder: React.PropTypes.string,
-        onPlacesChanged: React.PropTypes.func
+
     };
     onPlacesChanged = () => {
         if (this.props.onPlacesChanged) {
@@ -40,18 +39,19 @@ export default class SimpleMap extends React.Component {
         render()
         {
             return (
-                <GoogleMapReact
-                    bootstrapURLKeys={configs.GoogleMapsAPIKey}
-                    defaultCenter={this.props.center}
-                    defaultZoom={this.props.zoom}
-                    address="montreal, canada"
-                    options={this.createMapOptions}
-                >
-                    <AnyReactComponent
+                <div style={{width: '100%', height: '400px'}}>
 
-                        text={'Kreyser Avrora'}
-                    />
-                </GoogleMapReact>
+                    <GoogleMapReact
+                        bootstrapURLKeys={configs.GoogleMapsAPIKey}
+                        defaultCenter={this.props.center}
+                        defaultZoom={this.props.zoom}
+                        address="montreal, canada"
+                        options={this.createMapOptions} >
+
+                        <AnyReactComponent  text={'Kreyser Avrora'} />
+                    </GoogleMapReact>
+                </div>
+
             );
         }
     }

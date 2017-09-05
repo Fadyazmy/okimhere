@@ -1,18 +1,15 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import FacebookLogin from 'react-facebook-login';
-import graph from 'fb-react-sdk';
-import Col from 'react-bootstrap/lib/Col';
-import Button from 'react-bootstrap/lib/Button';
+import { Col, Row } from 'react-bootstrap';
 
 /* own modules */
 import SearchBar from './components/searchbar/SearchBar.jsx';
 import FacebookEvents from './components/facebookevents/facebook_events.jsx';
 import EventbriteEvents from './components/eventbrite/Eventbrite.jsx';
 import GoogleMap from './components/googleMaps/GoogleMaps.jsx';
-import configs from './config/config.json';
 import './styles/App.css';
 import logo from './styles/logo.svg';
+import Facebook_login from './components/fblogin/facebooklogin';
 
 
 
@@ -27,26 +24,13 @@ class App extends Component {
       isLoggedIn: false,
       query: "Montreal"
     };
-    this.responseFacebook = this.responseFacebook.bind(this);
+
+    this.handleSearch = this.handleSearch.bind(this);
     this.handleLoginClick = this.handleLoginClick.bind(this);
     this.handleLogoutClick = this.handleLogoutClick.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
   }
 
-  /* helper functions */
-  handleLoginClick = (res) => {
-    this.setState({
-      userData: res,
-      isLoggedIn: true
-    })
-  }
 
-  handleLogoutClick = () => {
-    this.setState({
-      userData: {},
-      isLoggedIn: false
-    })
-  }
 
   handleSearch = (term) => {
     this.setState({
@@ -55,20 +39,25 @@ class App extends Component {
 
   }
 
-  /* fb callback to handle response */
-  responseFacebook = (response) => {
-    if (response.expiresIn === undefined) {
-      console.log("Something went wrong. Don't set userData");
-      console.log("Error Response:");
-      console.log(response);
-        }
-    else {
-      console.log("response:");
-      console.log(response);
-      graph.setAccessToken(response['accessToken']);
-      this.handleLoginClick(response);
-    }
-  }
+
+  /* helper functions */
+  handleLoginClick = (res) => {
+    this.setState({
+      userData: res,
+      isLoggedIn: true
+    })
+    console.log("EXECUTED handleLoginClick");
+  };
+
+  handleLogoutClick = () => {
+    this.setState({
+      userData: {},
+      isLoggedIn: false
+    })
+    console.log("EXECUTED handleLogoutClick");
+  };
+
+
 
 
 
@@ -77,7 +66,6 @@ class App extends Component {
     let header = null;
     let body = null;
     const videoQuery = _.debounce((term) => {this.handleSearch(term)}, 300);
-
     if (isLoggedIn){ //If logged in
       header =
         <div className="App">
@@ -88,20 +76,25 @@ class App extends Component {
         </div>
       body =
         <div>
-          <Col xs={8} md={2} >
+          <Row>
             <SearchBar
               onSearchTermChange={videoQuery} />
+          </Row>
+          <Row>
+            <Col lg={4} md={4} xs={6}>
+                <FacebookEvents
+                  userInfo={this.state.userData}
+                  query={this.state.query} />
 
-            <FacebookEvents
-              userInfo={this.state.userData}
-              query={this.state.query} />
+                <EventbriteEvents
+                  query={this.state.query} />
+            </Col>
 
-            <EventbriteEvents
-              query={this.state.query} />
-          </Col>
-          <Col xs={4} md={4} >
-          <h1> GMAPS </h1>
-          </Col>
+            <Col lg={4} md={4} xs={6}>
+              <h1> GMAPS </h1>
+              <GoogleMap query={this.state.query}/>
+            </Col>
+            </Row>
         </div>
 
     }
@@ -115,26 +108,18 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <FacebookLogin
-      appId= {configs.FBappId}
-      autoLoad={true}
-      version = 'v2.10'
-      fields="name,email,picture"
-      callback={this.responseFacebook}
-      />
+
+        <Facebook_login handleLoginClick={this.handleLoginClick} handleLogoutClick={this.handleLogoutClick} />
       </div>
 
     }
     return (
-        <div>
           <div>
             {header}
-            {body}
+              <div className="container" >
+              {body}
+              </div>
           </div>
-          <div style={{width: '100%', height: '400px'}}>
-            <GoogleMap query={this.state.query}/>
-          </div>
-        </div>
 
     );
   }
